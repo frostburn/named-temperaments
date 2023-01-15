@@ -5,6 +5,6 @@
     "outDir": "build"
   },
   "include": [
-    "scripts/temp.ts"
+    "scripts/process.ts"
   ]
 }
