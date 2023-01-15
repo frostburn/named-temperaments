@@ -1,13 +1,6 @@
 import {readFileSync, writeFileSync} from 'fs';
 import {join} from 'path';
-import {processScraped, TemperamentData} from '../src/index';
-
-type StoredTemperamentData = {
-  title: string;
-  subtitle?: string;
-  commas: string;
-  vals?: string;
-};
+import {processScraped, StoredTemperamentData} from '../src/index';
 
 const raw = JSON.parse(readFileSync(process.argv[2], 'utf-8'));
 

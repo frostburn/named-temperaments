@@ -1,6 +1,8 @@
 import {Temperament, Subgroup, Val, Comma} from 'temperaments';
 import {dot} from 'xen-dev-utils';
 
+export * from './names';
+
 export type TemperamentData = {
   title: string;
   subtitle: string | null;
