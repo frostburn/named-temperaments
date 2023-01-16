@@ -11,37 +11,30 @@ export type StoredTemperamentData = {
 
 type RankData = {[key: string]: {[key: string]: StoredTemperamentData}};
 
-let rank2Data: RankData;
-let rank3Data: RankData;
-let rank4Data: RankData;
-let rank5Data: RankData;
+const rank2Data = require('../resources/rank2.json');
+const rank3Data = require('../resources/rank3.json');
+const rank4Data = require('../resources/rank4.json');
+const rank5Data = require('../resources/rank5.json');
+
+function getRankData(rank: number): RankData | undefined {
+  if (rank === 2) {
+    return rank2Data;
+  } else if (rank === 3) {
+    return rank3Data;
+  } else if (rank === 4) {
+    return rank4Data;
+  } else if (rank === 5) {
+    return rank5Data;
+  }
+  return undefined;
+}
 
 export function getTemperamentData(
   temperament: Temperament
 ): TemperamentData | null {
   const rank = temperament.getRank();
-  let rankData: RankData;
-  if (rank === 2) {
-    if (rank2Data === undefined) {
-      rank2Data = require('../resources/rank2.json');
-    }
-    rankData = rank2Data;
-  } else if (rank === 3) {
-    if (rank3Data === undefined) {
-      rank3Data = require('../resources/rank3.json');
-    }
-    rankData = rank3Data;
-  } else if (rank === 4) {
-    if (rank4Data === undefined) {
-      rank4Data = require('../resources/rank4.json');
-    }
-    rankData = rank4Data;
-  } else if (rank === 5) {
-    if (rank5Data === undefined) {
-      rank5Data = require('../resources/rank5.json');
-    }
-    rankData = rank5Data;
-  } else {
+  const rankData = getRankData(rank);
+  if (rankData === undefined) {
     return null;
   }
   const subgroup = temperament.subgroup.toString();
@@ -79,7 +72,9 @@ export function getTemperamentData(
   };
 }
 
-let rawCommaData: {[key: string]: string[]};
+const commaData: {
+  [key: string]: string[];
+} = require('../resources/commas.json');
 
 export function getCommaNames(comma: MonzoValue): string[] {
   let monzo = resolveMonzo(comma);
@@ -91,11 +86,8 @@ export function getCommaNames(comma: MonzoValue): string[] {
   if (size < -1e-9) {
     monzo = monzo.map(m => -m);
   }
-  if (rawCommaData === undefined) {
-    rawCommaData = require('../resources/commas.json');
-  }
   const key = monzo.slice(1).join(',');
-  return rawCommaData[key] || [];
+  return commaData[key] || [];
 }
 
 const commaByName: Map<string, Monzo> = new Map();
@@ -104,15 +96,12 @@ export function namedComma(name: string): Fraction;
 export function namedComma(name: string, asMonzo: boolean): Monzo;
 export function namedComma(name: string, asMonzo?: boolean): Fraction | Monzo {
   if (!commaByName.size) {
-    if (rawCommaData === undefined) {
-      rawCommaData = require('../resources/commas.json');
-    }
-    Object.keys(rawCommaData!).forEach(key => {
+    Object.keys(commaData!).forEach(key => {
       const comma = key.split(',').map(c => parseInt(c));
       comma.unshift(0);
       const offTwoSize = dot(comma, LOG_PRIMES);
       comma[0] = -Math.round(offTwoSize / Math.LN2);
-      rawCommaData![key].forEach(name => {
+      commaData![key].forEach(name => {
         commaByName.set(name.toLowerCase(), comma);
       });
     });
@@ -130,5 +119,3 @@ export function namedComma(name: string, asMonzo?: boolean): Fraction | Monzo {
   }
   return monzoToFraction(result);
 }
-
-// TODO: Temperament from name
