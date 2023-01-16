@@ -2,7 +2,7 @@
 Companion for the temperaments package providing names for commas and temperaments
 
 ## Preparation
-The data comes from [Xenharmonic Wiki](https://en.xen.wiki/) scraped by `xenwiki-scraper`(https://github.com/frostburn/xenwiki-scraper).
+The data comes from [Xenharmonic Wiki](https://en.xen.wiki/) scraped by [xenwiki-scraper](https://github.com/frostburn/xenwiki-scraper).
 
 It needs to be post-processed:
 ```bash
