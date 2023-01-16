@@ -1,4 +1,10 @@
-import {MonzoValue, resolveMonzo, Temperament} from 'temperaments';
+import {
+  MonzoValue,
+  resolveMonzo,
+  Subgroup,
+  SubgroupValue,
+  Temperament,
+} from 'temperaments';
 import {dot, Fraction, LOG_PRIMES, Monzo, monzoToFraction} from 'xen-dev-utils';
 import {TemperamentData} from '.';
 
@@ -70,6 +76,44 @@ export function getTemperamentData(
     subgroup,
     prefix,
   };
+}
+
+const prefixAndRankByTitleBySubgroup: Map<
+  string,
+  Map<string, [string, number]>
+> = new Map();
+
+export function namedTemperament(title: string, subgroup: SubgroupValue) {
+  const subgroupInstance = new Subgroup(subgroup);
+  subgroup = subgroupInstance.toString();
+  if (!prefixAndRankByTitleBySubgroup.size) {
+    let rank = 2;
+    for (const rankData of [rank2Data, rank3Data, rank4Data, rank5Data]) {
+      for (const subKey in rankData) {
+        const subData = rankData[subKey];
+        const subMap = prefixAndRankByTitleBySubgroup.get(subKey) || new Map();
+        for (const prefix in subData) {
+          const data = subData[prefix];
+          subMap.set(data.title, [prefix, rank]);
+        }
+        prefixAndRankByTitleBySubgroup.set(subKey, subMap);
+      }
+      rank++;
+    }
+  }
+  if (!prefixAndRankByTitleBySubgroup.has(subgroup)) {
+    throw new Error(`No names found for subgroup ${subgroup}`);
+  }
+  const prefixAndRankByName = prefixAndRankByTitleBySubgroup.get(subgroup)!;
+  if (!prefixAndRankByName.has(title)) {
+    throw new Error(`Unrecognized temperament ${title}`);
+  }
+  const prefix = prefixAndRankByName
+    .get(title)![0]
+    .split(',')
+    .map(c => parseInt(c));
+  const rank = prefixAndRankByName.get(title)![1];
+  return Temperament.fromPrefix(rank, prefix, subgroupInstance);
 }
 
 const commaData: {

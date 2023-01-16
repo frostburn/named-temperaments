@@ -1,6 +1,11 @@
 import {describe, it, expect} from 'vitest';
 
-import {getCommaNames, getTemperamentData, namedComma} from '../names';
+import {
+  getCommaNames,
+  getTemperamentData,
+  namedComma,
+  namedTemperament,
+} from '../names';
 import {Temperament} from 'temperaments';
 import {
   arraysEqual,
@@ -58,6 +63,25 @@ describe('Temperament namer', () => {
   it('knows about rank 3 temperaments like starling', () => {
     const temperament = Temperament.fromCommas(['126/125']).canonize();
     expect(getTemperamentData(temperament)!.title).toBe('Starling');
+  });
+});
+
+describe('Temperament retriever', () => {
+  it('can retrieve meantone', () => {
+    const temperament = namedTemperament('Meantone', 5);
+    expect(temperament.tune('81/80')).toBeCloseTo(0);
+  });
+
+  it('can retrieve tritonic', () => {
+    const temperament = namedTemperament('Tritonic', 7);
+    expect(temperament.tune('225/224')).toBeCloseTo(0);
+    expect(temperament.tune('50421/50000')).toBeCloseTo(0);
+  });
+
+  it('can retrieve marvel', () => {
+    const temperament = namedTemperament('Marvel', 7);
+    expect(temperament.getRank()).toBe(3);
+    expect(temperament.tune('225/224')).toBeCloseTo(0);
   });
 });
 
