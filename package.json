@@ -1,4 +1,27 @@
 {
+  "name": "named-temperaments",
+  "author": "Lumi Pakkanen",
+  "version": "0.0.0",
+  "description": "Companion for the temperaments package providing names for commas and temperaments.",
+  "license": "MIT",
+  "main": "dist/src/index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostburn/named-temperaments.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frostburn/named-temperaments/issues"
+  },
+  "homepage": "https://github.com/frostburn/named-temperaments#readme",
+  "keywords": [
+    "Microtonal",
+    "Music",
+    "Xenharmonic",
+    "Temperament",
+    "Tuning",
+    "Regular Tuning Theory"
+  ],
+  "types": "dist/src/index.d.ts",
   "devDependencies": {
     "@types/node": "^14.11.2",
     "gts": "^3.1.1",
@@ -14,16 +37,16 @@
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
-    "copyfiles": "npx copyfiles ./resources/* ./build/",
+    "copyfiles": "npx copyfiles ./resources/* ./dist/",
     "fix": "gts fix",
     "prepare": "npm run compile && npm run copyfiles",
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "test": "vitest",
     "preprocess": "npm run compile && npm run copyfiles",
-    "process": "node build/scripts/process.js",
+    "process": "node dist/scripts/process.js",
     "prematrix": "npm run compile && npm run copyfiles",
-    "matrix": "node build/scripts/matrix.js"
+    "matrix": "node dist/scripts/matrix.js"
   },
   "engines": {
     "node": ">=10.0.0"
