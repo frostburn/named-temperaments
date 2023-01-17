@@ -21,6 +21,11 @@
     "posttest": "npm run lint",
     "test": "vitest",
     "preprocess": "npm run compile && npm run copyfiles",
-    "process": "node build/scripts/process.js"
+    "process": "node build/scripts/process.js",
+    "prematrix": "npm run compile && npm run copyfiles",
+    "matrix": "node build/scripts/matrix.js"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }
