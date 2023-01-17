@@ -6,6 +6,7 @@
     "vitest": "^0.27.1"
   },
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "temperaments": "^0.4.4",
     "xen-dev-utils": "^0.1.3"
   },
@@ -13,12 +14,13 @@
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
+    "copyfiles": "npx copyfiles ./resources/* ./build/",
     "fix": "gts fix",
-    "prepare": "npm run compile",
+    "prepare": "npm run compile && npm run copyfiles",
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "test": "vitest",
-    "preprocess": "npm run compile",
+    "preprocess": "npm run compile && npm run copyfiles",
     "process": "node build/scripts/process.js"
   }
 }
