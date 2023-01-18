@@ -54,13 +54,6 @@ export function processScraped(data: {temperaments: TemperamentData[]}) {
     if (subgroup.basis.length > 11) {
       console.log('Subgroup too large', title, subtitle);
       continue;
-      // key = `${subgroup.toString()};?;`;
-      // for (const comma of commas) {
-      //   for (const component of comma) {
-      //     key += component.toString() + '.';
-      //   }
-      //   key += ','
-      // }
     } else {
       const temperament = Temperament.fromCommas(
         commas,
@@ -85,25 +78,29 @@ export function processScraped(data: {temperaments: TemperamentData[]}) {
       key = `${subgroup.toString()};${rank};${prefix}`;
       let vals: Val[];
       try {
-        vals = temperament.valFactorize(10000);
+        vals = temperament.valFactorize(10, 1000, 0, 'GPV');
       } catch {
         try {
-          vals = temperament.valFactorize(10000, 0, false);
+          vals = temperament.valFactorize(10, 1000, 0, 'GM');
         } catch {
           try {
-            vals = temperament.valFactorize(999, 1);
+            vals = temperament.valFactorize(2, 10000, 0, 'patent');
           } catch {
             try {
-              vals = temperament.valFactorize(999, 1, false);
+              vals = temperament.valFactorize(5, 999, 1, 'patent');
             } catch {
-              console.log(
-                'Val factorization not found',
-                title,
-                subtitle,
-                rank,
-                commas.map(comma => subgroup.toFraction(comma).valueOf())
-              );
-              vals = [];
+              try {
+                vals = temperament.valFactorize(2, 999, 1, 'mapping');
+              } catch {
+                console.log(
+                  'Val factorization not found',
+                  title,
+                  subtitle,
+                  rank,
+                  commas.map(comma => subgroup.toFraction(comma).valueOf())
+                );
+                vals = [];
+              }
             }
           }
         }
