@@ -12,7 +12,6 @@ export type StoredTemperamentData = {
   title: string;
   subtitle?: string;
   commas: string;
-  vals?: string;
 };
 
 type RankData = {[key: string]: {[key: string]: StoredTemperamentData}};
@@ -57,21 +56,12 @@ export function getTemperamentData(
     return null;
   }
 
-  let vals: null | string[];
-
-  if (storedData.vals === undefined) {
-    vals = null;
-  } else {
-    vals = storedData.vals.split('&');
-  }
-
   return {
     title: storedData.title,
     subtitle: storedData.subtitle || null,
     commas: storedData.commas
       .split(';')
       .map(comma => comma.split(',').map(c => parseInt(c))),
-    vals,
     rank,
     subgroup,
     prefix,

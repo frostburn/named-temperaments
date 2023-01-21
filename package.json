@@ -43,10 +43,12 @@
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "test": "vitest",
-    "preprocess": "npm run compile && npm run copyfiles",
+    "preprocess": "npm run prepare",
     "process": "node dist/scripts/process.js",
-    "prematrix": "npm run compile && npm run copyfiles",
-    "matrix": "node dist/scripts/matrix.js"
+    "prematrix": "npm run prepare",
+    "matrix": "node dist/scripts/matrix.js",
+    "preinspect": "npm run prepare",
+    "inspect": "node dist/scripts/inspect.js"
   },
   "engines": {
     "node": ">=10.0.0"

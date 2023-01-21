@@ -29,9 +29,6 @@ for (const result of processed.values()) {
   if (result.subtitle !== null) {
     datum.subtitle = result.subtitle;
   }
-  if (result.vals !== null) {
-    datum.vals = result.vals.join('&');
-  }
   byPrefix.set(result.prefix, datum);
   bySubgroup.set(result.subgroup, byPrefix);
   byRank.set(result.rank, bySubgroup);
