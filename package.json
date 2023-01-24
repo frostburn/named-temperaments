@@ -47,8 +47,8 @@
     "process": "node dist/scripts/process.js",
     "prematrix": "npm run prepare",
     "matrix": "node dist/scripts/matrix.js",
-    "preinspect": "npm run prepare",
-    "inspect": "node dist/scripts/inspect.js"
+    "preval-factorize": "npm run prepare",
+    "val-factorize": "node dist/scripts/val-factorize.js"
   },
   "engines": {
     "node": ">=10.0.0"

@@ -18,7 +18,11 @@ describe('Temperament namer', () => {
   it('knows about meantone', () => {
     const temperament = Temperament.fromPrefix(2, [1, 4], 5);
     temperament.canonize();
-    expect(getTemperamentData(temperament)!.title).toBe('Meantone');
+    const data = getTemperamentData(temperament)!;
+    expect(data.title).toBe('Meantone');
+    expect(
+      data.vals!.map(val => temperament.subgroup.toWarts(val)).join('&')
+    ).toBe('5&7');
   });
 
   it('knows about augmented', () => {

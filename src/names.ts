@@ -12,6 +12,7 @@ export type StoredTemperamentData = {
   title: string;
   subtitle?: string;
   commas: string;
+  vals?: string;
 };
 
 type RankData = {[key: string]: {[key: string]: StoredTemperamentData}};
@@ -56,7 +57,7 @@ export function getTemperamentData(
     return null;
   }
 
-  return {
+  const result: TemperamentData = {
     title: storedData.title,
     subtitle: storedData.subtitle || null,
     commas: storedData.commas
@@ -66,6 +67,12 @@ export function getTemperamentData(
     subgroup,
     prefix,
   };
+  if (storedData.vals !== undefined) {
+    result.vals = storedData.vals
+      .split('&')
+      .map(warts => temperament.subgroup.fromWarts(warts));
+  }
+  return result;
 }
 
 const prefixAndRankByTitleBySubgroup: Map<

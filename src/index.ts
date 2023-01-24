@@ -10,6 +10,7 @@ export type TemperamentData = {
   commas: number[][];
   rank: number;
   prefix: string;
+  vals?: number[][];
 };
 
 function inferCommas(commas: MonzoValue[], subgroup: Subgroup) {
